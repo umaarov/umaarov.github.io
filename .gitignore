@@ -1,3 +1,4 @@
 node_modules
-/config.js
-/api.env
+index.html
+package.json
+package-lock.json
