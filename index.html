@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GOAT</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/x-icon" href="/goat.png" />
+  <link rel="shortcut icon" href="goat.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Galano+Grotesque:wght@400;700&display=swap" rel="stylesheet" />
 </head>
@@ -35,116 +35,8 @@
   <div id="toast-container"></div>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-
-  <script type="module">
-
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC38M2uFrG3FOnQ3RDsutWO5tVcC5u9UEE",
-      authDomain: "goat-5eda2.firebaseapp.com",
-      databaseURL: "https://goat-5eda2-default-rtdb.firebaseio.com",
-      projectId: "goat-5eda2",
-      storageBucket: "goat-5eda2.appspot.com",
-      messagingSenderId: "189954731887",
-      appId: "1:189954731887:web:2591d17a7f12f15272c29a",
-      measurementId: "G-VXDSXLFZ9M"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    document.getElementById("button").addEventListener("click", async function (e) {
-      e.preventDefault();
-
-      const inputText = document.querySelector('input[type="text"]').value;
-
-      if (!inputText.trim()) {
-        return;
-      }
-
-      const button = e.target;
-      button.style.transform = "scale(0.95)";
-      setTimeout(function () {
-        button.style.transform = "scale(1)";
-      }, 100);
-
-      const goatSubmissionsDocRef = doc(db, 'data', 'goatSubmissions');
-
-      try {
-        const docSnapshot = await getDoc(goatSubmissionsDocRef);
-        let currentData = docSnapshot.exists() ? docSnapshot.data() : {};
-
-        let nextField = 1;
-        while (currentData[`text${nextField}`]) {
-          nextField++;
-        }
-        const fieldName = `text${nextField}`;
-
-        currentData[fieldName] = inputText;
-
-        await setDoc(goatSubmissionsDocRef, currentData);
-
-        showToast("Thank you!");
-      } catch (error) {
-        console.error("Error adding document: ", error);
-      }
-    });
-
-    document.getElementById("button").addEventListener("mousemove", function (e) {
-      const rect = e.target.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const buttonWidth = rect.width;
-      const buttonHeight = rect.height;
-
-      const horizontalPercentage = x / buttonWidth;
-      const verticalPercentage = y / buttonHeight;
-
-      const red = Math.round(horizontalPercentage * 255);
-      const green = Math.round(verticalPercentage * 255);
-      const blue = Math.round(
-        (horizontalPercentage + verticalPercentage) * 128
-      );
-      e.target.style.backgroundColor = `rgb(${red},${green},${blue})`;
-
-      e.target.style.borderTopRightRadius = "10px";
-      e.target.style.borderBottomRightRadius = "10px";
-
-      const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
-
-      if (luminance > 0.5) {
-        e.target.style.color = "black";
-      } else {
-        e.target.style.color = "white";
-      }
-    });
-
-    function showToast(message, duration = 3000) {
-      const toastContainer = document.getElementById("toast-container");
-
-      const toast = document.createElement("div");
-      toast.classList.add("toast");
-      toast.textContent = message;
-
-      toastContainer.appendChild(toast);
-
-      setTimeout(() => {
-        toast.classList.add("show");
-        setTimeout(() => {
-          toast.classList.remove("show");
-          setTimeout(() => {
-            toast.remove();
-          }, 300);
-        }, duration);
-      }, 100);
-    }
-
-  </script>
-
+  <script type="module" src="config.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
-
 
 </html>
