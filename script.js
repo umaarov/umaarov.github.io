@@ -87,7 +87,7 @@ function showToast(message, duration = 3000) {
       toast.classList.remove("show");
       setTimeout(() => {
         toast.remove();
-      }, 300);
+      }, 30);
     }, duration);
-  }, 100);
+  }, 10);
 }
