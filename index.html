@@ -39,4 +39,60 @@
   <script type="module" src="script.js"></script>
 </body>
 
+<script>
+
+
+  document.getElementById("button").addEventListener("mousemove", function (e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const buttonWidth = rect.width;
+    const buttonHeight = rect.height;
+
+    const horizontalPercentage = x / buttonWidth;
+    const verticalPercentage = y / buttonHeight;
+
+    const red = Math.round(horizontalPercentage * 255);
+    const green = Math.round(verticalPercentage * 255);
+    const blue = Math.round(
+      (horizontalPercentage + verticalPercentage) * 128
+    );
+    e.target.style.backgroundColor = `rgb(${red},${green},${blue})`;
+
+    e.target.style.borderTopRightRadius = "10px";
+    e.target.style.borderBottomRightRadius = "10px";
+
+    const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+
+    if (luminance > 0.5) {
+      e.target.style.color = "black";
+    } else {
+      e.target.style.color = "white";
+    }
+  });
+
+  function showToast(message, duration = 3000) {
+    const toastContainer = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.classList.add("toast");
+    toast.textContent = message;
+
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, duration);
+    }, 100);
+  }
+
+
+</script>
+
 </html>
